@@ -46,15 +46,15 @@ if ((Test-Path env:SKIP_MACOS) -And $env:SKIP_MACOS.ToUpper() -eq "TRUE") {
     Write-Output "Skipping MacOS build because SKIP_MACOS is set"
 }
 else {
-    dotnet publish src/SecretsMigrator.csproj -c Release -o dist/osx-x64/ -r osx-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true /p:DebugType=None /p:IncludeNativeLibrariesForSelfExtract=true /p:VersionPrefix=$AssemblyVersion
+    dotnet publish src/SecretsMigrator.csproj -c Release -o dist/gh-secrets-migrator/ -r osx-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true /p:DebugType=None /p:IncludeNativeLibrariesForSelfExtract=true /p:VersionPrefix=$AssemblyVersion
 
     if ($LASTEXITCODE -ne 0) {
         exit $LASTEXITCODE
     }
 
-    if (Test-Path -Path ./dist/osx-x64/secrets-migrator-darwin-amd64) {
-        Remove-Item ./dist/osx-x64/secrets-migrator-darwin-amd64
+    if (Test-Path -Path ./dist/gh-secrets-migrator/secrets-migrator-darwin-amd64) {
+        Remove-Item ./dist/gh-secrets-migrator/secrets-migrator-darwin-amd64
     }
 
-    Rename-Item ./dist/osx-x64/SecretsMigrator secrets-migrator-darwin-amd64
+    Rename-Item ./dist/gh-secrets-migrator/SecretsMigrator gh-secrets-migrator
 }

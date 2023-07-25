@@ -25,6 +25,18 @@ namespace SecretsMigrator
             return (string)data["default_branch"];
         }
 
+        public virtual async Task<JArray> GetRepoEnvironments(string org, string repo)
+        {
+            var url = $"{_apiUrl}/repos/{org}/{repo}/environments";
+
+            var response = await _client.GetAsync(url);
+            var data = JObject.Parse(response);
+
+            JArray envs = (JArray)data["environments"];
+
+            return envs;
+        }
+
         public virtual async Task CreateBranch(string org, string repo, string branchName, string sha)
         {
             var url = $"{_apiUrl}/repos/{org}/{repo}/git/refs";
